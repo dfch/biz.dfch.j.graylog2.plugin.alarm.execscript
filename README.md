@@ -1,7 +1,7 @@
 biz.dfch.j.graylog2.plugin.alarm.execscript
 ============================================
 
-Plugin: biz.dfch.j.graylog2.alarm.output.execscript
+Plugin: biz.dfch.j.graylog2.plugin.alarm.execscript
 
 d-fens GmbH, General-Guisan-Strasse 6, CH-6300 Zug, Switzerland
 
