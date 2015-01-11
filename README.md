@@ -1,8 +1,13 @@
-Graylog2 Plugin - dfchBizExecScript
-====================================
+biz.dfch.j.graylog2.plugin.alarm.execscript
+============================================
 
-Welcome to your new Graylog2 plugin!
+Plugin: biz.dfch.j.graylog2.alarm.output.execscript
 
+d-fens GmbH, General-Guisan-Strasse 6, CH-6300 Zug, Switzerland
+
+This Graylog2 AlarmCallback Plugin lets you run arbitrary scripts on a Graylog2 node as a result of an alarm condition.
+
+See [Creating a Graylog2 Output Plugin](http://d-fens.ch/2015/01/07/howto-creating-a-graylog2-output-plugin/) for further description on how to create plugins.
 
 Getting started for users
 -------------------------
