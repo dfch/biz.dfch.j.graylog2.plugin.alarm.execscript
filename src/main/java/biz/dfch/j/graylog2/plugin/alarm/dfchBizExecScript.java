@@ -16,12 +16,13 @@ import org.graylog2.plugin.alarms.callbacks.AlarmCallbackException;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
-import java.io.StringWriter;
+import javax.script.ScriptException;
+import java.io.*;
 import java.net.URI;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is the plugin. Your class should implement one of the existing plugin
@@ -46,21 +47,23 @@ public class dfchBizExecScript implements AlarmCallback
     private ScriptContext _scriptContext;
     private File _file;
 
+    private static final Logger LOG = LoggerFactory.getLogger(dfchBizExecScript.class);
+
     @Override
     public void initialize(final Configuration configuration)
     {
         try
         {
             String s = "*** " + DF_PLUGIN_NAME + "::initialize()";
-            System.out.println(s);
+            LOG.trace(s);
 
             _configuration = configuration;
             _isRunning = true;
 
-            System.out.printf("DF_SCRIPT_ENGINE         : %s\r\n", _configuration.getString("DF_SCRIPT_ENGINE"));
-            System.out.printf("DF_SCRIPT_PATH_AND_NAME  : %s\r\n", _configuration.getString("DF_SCRIPT_PATH_AND_NAME"));
-            System.out.printf("DF_DISPLAY_SCRIPT_OUTPUT : %b\r\n", _configuration.getBoolean("DF_DISPLAY_SCRIPT_OUTPUT"));
-            System.out.printf("DF_SCRIPT_CACHE_CONTENTS : %b\r\n", _configuration.getBoolean("DF_SCRIPT_CACHE_CONTENTS"));
+            LOG.trace("DF_SCRIPT_ENGINE         : %s\r\n", _configuration.getString("DF_SCRIPT_ENGINE"));
+            LOG.trace("DF_SCRIPT_PATH_AND_NAME  : %s\r\n", _configuration.getString("DF_SCRIPT_PATH_AND_NAME"));
+            LOG.trace("DF_DISPLAY_SCRIPT_OUTPUT : %b\r\n", _configuration.getBoolean("DF_DISPLAY_SCRIPT_OUTPUT"));
+            LOG.trace("DF_SCRIPT_CACHE_CONTENTS : %b\r\n", _configuration.getBoolean("DF_SCRIPT_CACHE_CONTENTS"));
 
             _scriptEngineManager = new ScriptEngineManager();
             _file = new File(_configuration.getString("DF_SCRIPT_PATH_AND_NAME"));
@@ -70,8 +73,9 @@ public class dfchBizExecScript implements AlarmCallback
         {
             _isRunning = false;
 
-            System.out.println("*** " + DF_PLUGIN_NAME + "::write() - Exception");
+            LOG.error("*** " + DF_PLUGIN_NAME + "::write() - Exception");
             ex.printStackTrace();
+            throw ex;
         }
 
         return;
@@ -165,19 +169,19 @@ public class dfchBizExecScript implements AlarmCallback
     @Override
     public void call(final Stream stream, final AlertCondition.CheckResult result) throws AlarmCallbackException
     {
-        System.out.println("*** stream.getId: " + stream.getId());
-        System.out.println("*** stream.getTitle: " + stream.getTitle());
-        System.out.println("*** stream.getDescription: " + stream.getDescription());
-        System.out.println("*** stream.toString: " + stream.toString());
+        LOG.trace("*** stream.getId: " + stream.getId());
+        LOG.trace("*** stream.getTitle: " + stream.getTitle());
+        LOG.trace("*** stream.getDescription: " + stream.getDescription());
+        LOG.trace("*** stream.toString: " + stream.toString());
 
-        System.out.println("*** result.getResultDescription: " + result.getResultDescription());
-        System.out.println("*** result.toString: " + result.toString());
-        System.out.println("*** result.getTriggeredAt().toString: " + result.getTriggeredAt().toString());
-        System.out.println("*** result.getTriggeredCondition().getId: " + result.getTriggeredCondition().getId());
-        System.out.println("*** result.getTriggeredCondition().getBacklog: " + result.getTriggeredCondition().getBacklog());
-        System.out.println("*** result.getTriggeredCondition().getTypeString: " + result.getTriggeredCondition().getTypeString());
-        System.out.println("*** result.getTriggeredCondition().getCreatedAt().toString: " + result.getTriggeredCondition().getCreatedAt().toString());
-        System.out.println("*** result.getTriggeredCondition().getDescription: " + result.getTriggeredCondition().getDescription());
+        LOG.trace("*** result.getResultDescription: " + result.getResultDescription());
+        LOG.trace("*** result.toString: " + result.toString());
+        LOG.trace("*** result.getTriggeredAt().toString: " + result.getTriggeredAt().toString());
+        LOG.trace("*** result.getTriggeredCondition().getId: " + result.getTriggeredCondition().getId());
+        LOG.trace("*** result.getTriggeredCondition().getBacklog: " + result.getTriggeredCondition().getBacklog());
+        LOG.trace("*** result.getTriggeredCondition().getTypeString: " + result.getTriggeredCondition().getTypeString());
+        LOG.trace("*** result.getTriggeredCondition().getCreatedAt().toString: " + result.getTriggeredCondition().getCreatedAt().toString());
+        LOG.trace("*** result.getTriggeredCondition().getDescription: " + result.getTriggeredCondition().getDescription());
 
         if(!_isRunning) return;
 
@@ -197,14 +201,30 @@ public class dfchBizExecScript implements AlarmCallback
             _scriptEngine.eval(_reader);
             if(_configuration.getBoolean("DF_DISPLAY_SCRIPT_OUTPUT"))
             {
-                System.out.printf("%s\r\n", stringWriter.toString());
+                LOG.trace("%s\r\n", stringWriter.toString());
             }
 
         }
+        catch(FileNotFoundException ex)
+        {
+            String msg = "*** " + DF_PLUGIN_NAME + "::write() - FileNotFoundException";
+            LOG.error(msg);
+            ex.printStackTrace();
+            throw new AlarmCallbackException(msg, ex);
+        }
+        catch(ScriptException ex)
+        {
+            String msg = "*** " + DF_PLUGIN_NAME + "::write() - ScriptException";
+            LOG.error(msg);
+            ex.printStackTrace();
+            throw new AlarmCallbackException(msg, ex);
+        }
         catch(Exception ex)
         {
-            System.out.println("*** " + DF_PLUGIN_NAME + "::write() - Exception");
+            String msg = "*** " + DF_PLUGIN_NAME + "::write() - Exception";
+            LOG.error(msg);
             ex.printStackTrace();
+            throw new AlarmCallbackException(msg, ex);
         }
 
         return;
