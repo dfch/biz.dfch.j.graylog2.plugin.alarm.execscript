@@ -42,9 +42,9 @@ public class dfchBizExecScript implements AlarmCallback
     private boolean _isRunning = false;
     private Configuration _configuration;
 
-    private ScriptEngineManager _scriptEngineManager;
-    private ScriptEngine _scriptEngine;
-    private ScriptContext _scriptContext;
+    private static final ScriptEngineManager _scriptEngineManager = new ScriptEngineManager();
+    private static ScriptEngine _scriptEngine;
+    private static ScriptContext _scriptContext;
     private File _file;
 
     private static final Logger LOG = LoggerFactory.getLogger(dfchBizExecScript.class);
@@ -65,8 +65,9 @@ public class dfchBizExecScript implements AlarmCallback
             LOG.trace("DF_DISPLAY_SCRIPT_OUTPUT : %b\r\n", _configuration.getBoolean("DF_DISPLAY_SCRIPT_OUTPUT"));
             LOG.trace("DF_SCRIPT_CACHE_CONTENTS : %b\r\n", _configuration.getBoolean("DF_SCRIPT_CACHE_CONTENTS"));
 
-            _scriptEngineManager = new ScriptEngineManager();
             _file = new File(_configuration.getString("DF_SCRIPT_PATH_AND_NAME"));
+            _scriptEngine = _scriptEngineManager.getEngineByName(_configuration.getString("DF_SCRIPT_ENGINE"));
+            _scriptContext = _scriptEngine.getContext();
 
         }
         catch(Exception ex)
@@ -77,8 +78,6 @@ public class dfchBizExecScript implements AlarmCallback
             ex.printStackTrace();
             throw ex;
         }
-
-        return;
     }
 
     @Override
@@ -144,9 +143,6 @@ public class dfchBizExecScript implements AlarmCallback
         {
             @Override
             public Object transformEntry(String key, Object value) {
-//                if (CK_SERVICE_KEY.equals(key)) {
-//                    return "****";
-//                }
                 return key + "-" + value;
             }
         });
@@ -187,8 +183,6 @@ public class dfchBizExecScript implements AlarmCallback
 
         try
         {
-            _scriptEngine = _scriptEngineManager.getEngineByName(_configuration.getString("DF_SCRIPT_ENGINE"));
-            _scriptContext = _scriptEngine.getContext();
             StringWriter stringWriter = new StringWriter();
             _scriptContext.setWriter(stringWriter);
             _scriptEngine.put("stream", stream);
@@ -226,8 +220,6 @@ public class dfchBizExecScript implements AlarmCallback
             ex.printStackTrace();
             throw new AlarmCallbackException(msg, ex);
         }
-
-        return;
     }
 
 
