@@ -1,10 +1,9 @@
 package biz.dfch.j.graylog2.plugin.alarm;
 
 import java.util.Collection;
+import java.util.Collections;
 import org.graylog2.plugin.Plugin;
 import org.graylog2.plugin.PluginModule;
-
-import java.util.Collections;
 
 /**
  * Implement the Plugin interface here.

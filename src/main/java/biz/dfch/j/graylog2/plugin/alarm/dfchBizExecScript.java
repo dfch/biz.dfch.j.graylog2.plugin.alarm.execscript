@@ -1,5 +1,6 @@
 package biz.dfch.j.graylog2.plugin.alarm;
 
+import org.graylog2.plugin.Message;
 import org.graylog2.plugin.alarms.*;
 import org.graylog2.plugin.alarms.callbacks.AlarmCallback;
 import org.graylog2.plugin.alarms.callbacks.AlarmCallbackException;
@@ -19,6 +20,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.*;
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -183,10 +185,15 @@ public class dfchBizExecScript implements AlarmCallback
 
         try
         {
+            AlertCondition alertCondition = result.getTriggeredCondition();
+            List<Message> messages = alertCondition.getSearchHits();
+
             StringWriter stringWriter = new StringWriter();
             _scriptContext.setWriter(stringWriter);
             _scriptEngine.put("stream", stream);
             _scriptEngine.put("result", result);
+            _scriptEngine.put("messages", messages);
+            
             if(!_configuration.getBoolean("DF_SCRIPT_CACHE_CONTENTS"))
             {
                 _file = new File(_configuration.getString("DF_SCRIPT_PATH_AND_NAME"));
