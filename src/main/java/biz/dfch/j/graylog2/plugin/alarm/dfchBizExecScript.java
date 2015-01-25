@@ -44,6 +44,7 @@ public class dfchBizExecScript implements AlarmCallback
     private boolean _isRunning = false;
     private Configuration _configuration;
 
+    // TODO rethink script variables being *static* - in case the plugin will be loaded more than once with a different script engine, problems may occur
     private static final ScriptEngineManager _scriptEngineManager = new ScriptEngineManager();
     private static ScriptEngine _scriptEngine;
     private static ScriptContext _scriptContext;
