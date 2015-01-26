@@ -107,7 +107,7 @@ public class dfchBizExecScript implements AlarmCallback
                                 ,
                                 "Script Path"
                                 ,
-                                "/opt/graylog2/plugin/helloworld.js"
+                                "/opt/graylog2/plugin/bizDfchMessageAlarmScript.js"
                                 ,
                                 "Specify the full path and name of the script to execute."
                                 ,
