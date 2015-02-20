@@ -194,6 +194,12 @@ public class dfchBizExecScript implements AlarmCallback
             _scriptEngine.put("stream", stream);
             _scriptEngine.put("result", result);
             _scriptEngine.put("messages", messages);
+            Message message = null;
+            if(0 < messages.size())
+            {
+                message = messages.get(0);
+            }
+            _scriptEngine.put("message", message);
             
             if(!_configuration.getBoolean("DF_SCRIPT_CACHE_CONTENTS"))
             {
