@@ -14,7 +14,7 @@ You can [download the binary](https://drone.io/github.com/dfch/biz.dfch.j.graylo
 Usage
 -----
 
-When executing scripts you will find a global list of `messages` inside your script session that you can use to get the contents of the message. As you can see in the [example script](https://github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/blob/master/src/main/resources/graylog2-plugin.properties) the `messages` variable is *just there* as a POJO object and has all the properties you would be able to use from Java.
+When executing scripts you will find a global list of `messages` inside your script session that you can use to get the contents of the message. As you can see in the [example script](https://github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/blob/master/src/main/resources/bizDfchMessageAlarmScript.js) the `messages` variable is *just there* as a POJO object and has all the properties you would be able to use from Java.
 
 In addition the [stream and result](src/main/java/biz/dfch/j/graylog2/plugin/alarm/dfchBizExecScript.java#L194) are passed as variables to the script as well.
 
