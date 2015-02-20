@@ -1,6 +1,10 @@
 package biz.dfch.j.graylog2.plugin.alarm;
 
+import org.graylog2.plugin.PluginConfigBean;
 import org.graylog2.plugin.PluginModule;
+
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * Extend the PluginModule abstract class here to add you plugin to the system.
@@ -8,10 +12,13 @@ import org.graylog2.plugin.PluginModule;
 public class dfchBizExecScriptModule extends PluginModule
 {
     @Override
+    public Set<? extends PluginConfigBean> getConfigBeans() {
+        return Collections.emptySet();
+    }
+
+    @Override
     protected void configure()
     {
-        registerPlugin(dfchBizExecScriptMetadata.class);
-
         /* Register your plugin types here.
          *
          * Examples:

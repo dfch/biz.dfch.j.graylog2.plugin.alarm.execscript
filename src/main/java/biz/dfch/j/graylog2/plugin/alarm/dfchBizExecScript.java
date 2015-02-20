@@ -53,12 +53,12 @@ public class dfchBizExecScript implements AlarmCallback
     private static final Logger LOG = LoggerFactory.getLogger(dfchBizExecScript.class);
 
     @Override
-    public void initialize(final Configuration configuration)
+    public void initialize(final Configuration configuration) throws AlarmCallbackConfigurationException
     {
         try
         {
             String s = "*** " + DF_PLUGIN_NAME + "::initialize()";
-            LOG.trace(s);
+            LOG.debug(s);
 
             _configuration = configuration;
             _isRunning = true;
@@ -70,6 +70,10 @@ public class dfchBizExecScript implements AlarmCallback
 
             _file = new File(_configuration.getString("DF_SCRIPT_PATH_AND_NAME"));
             _scriptEngine = _scriptEngineManager.getEngineByName(_configuration.getString("DF_SCRIPT_ENGINE"));
+            if(null == _scriptEngine)
+            {
+                throw new AlarmCallbackConfigurationException(String.format("%s: Unsupported script engine.", _configuration.getString("DF_SCRIPT_ENGINE")));
+            }
             _scriptContext = _scriptEngine.getContext();
 
         }
@@ -107,7 +111,7 @@ public class dfchBizExecScript implements AlarmCallback
                                 ,
                                 "Script Path"
                                 ,
-                                "/opt/graylog2/plugin/bizDfchMessageAlarmScript.js"
+                                "/opt/graylog/plugin/bizDfchMessageAlarmScript.js"
                                 ,
                                 "Specify the full path and name of the script to execute."
                                 ,
@@ -209,7 +213,7 @@ public class dfchBizExecScript implements AlarmCallback
             _scriptEngine.eval(_reader);
             if(_configuration.getBoolean("DF_DISPLAY_SCRIPT_OUTPUT"))
             {
-                LOG.trace("%s\r\n", _stringWriter.toString());
+                LOG.info(String.format("%s\r\n", _stringWriter.toString()), _stringWriter);
             }
 
         }
@@ -240,7 +244,7 @@ public class dfchBizExecScript implements AlarmCallback
     @Override
     public String getName()
     {
-        return DF_PLUGIN_NAME;
+        return (new dfchBizExecScriptMetadata()).getName();
     }
 
 //    @Override

@@ -22,7 +22,7 @@ So to get the source of the message you could type something like
 
     print(message.getSource());
 
-Running a system command can be achieved by using [Rhino/Shell #runCommand](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino/Shell#runCommand).
+Running a system command can be achieved by using [Rhino/Shell #runCommand](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Rhino/Shell#runCommand). Or you use a scripting language like Python that can be executed as well when properly loaded (see [Jython and ScriptEngine](http://stackoverflow.com/questions/2671768/calling-python-from-java-through-scripting-engine-jython)).
 
 
 Getting started for users

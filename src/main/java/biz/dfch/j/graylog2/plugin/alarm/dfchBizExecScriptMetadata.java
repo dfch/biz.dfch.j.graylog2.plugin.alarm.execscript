@@ -1,8 +1,10 @@
 package biz.dfch.j.graylog2.plugin.alarm;
 
 import org.graylog2.plugin.PluginMetaData;
+import org.graylog2.plugin.ServerStatus;
 import org.graylog2.plugin.Version;
 import java.net.URI;
+import java.util.Set;
 
 /**
  * Implement the PluginMetaData interface here.
@@ -12,7 +14,7 @@ public class dfchBizExecScriptMetadata implements PluginMetaData
     @Override
     public String getUniqueId()
     {
-        return "95ee3de2-f997-45ac-bd7b-d8fd991abc6a";
+        return "biz.dfch.j.graylog2.plugin.alarm.dfchBizExecScriptPlugin";
     }
     @Override
     public String getName()
@@ -37,12 +39,16 @@ public class dfchBizExecScriptMetadata implements PluginMetaData
     @Override
     public String getDescription()
     {
-        return "d-fens SCRIPT AlarmCallback. With this plugin you can call arbitrary scripts from within Graylog2.";
+        return "d-fens SCRIPT AlarmCallback. With this plugin you can call arbitrary scripts from within Graylog.";
     }
     @Override
     public Version getRequiredVersion()
     {
-        return new Version(0, 90, 0);
+        return new Version(1, 0, 0);
+    }
+    @Override
+    public Set<ServerStatus.Capability> getRequiredCapabilities() {
+        return java.util.EnumSet.of(ServerStatus.Capability.SERVER);
     }
 }
 

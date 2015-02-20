@@ -1,8 +1,10 @@
 package biz.dfch.j.graylog2.plugin.alarm;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import org.graylog2.plugin.Plugin;
+import org.graylog2.plugin.PluginMetaData;
 import org.graylog2.plugin.PluginModule;
 
 /**
@@ -11,10 +13,14 @@ import org.graylog2.plugin.PluginModule;
 public class dfchBizExecScriptPlugin implements Plugin
 {
     @Override
+    public PluginMetaData metadata() {
+        return new dfchBizExecScriptMetadata();
+    }
+    @Override
     public Collection<PluginModule> modules ()
     {
         //return Lists.newArrayList((PluginModule) new dfchBizExecScriptModule());
-        return Collections.<PluginModule>singleton(new dfchBizExecScriptModule());
+        return Arrays.<PluginModule>asList(new dfchBizExecScriptModule());
     }
 }
 
