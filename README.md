@@ -9,7 +9,7 @@ This Graylog2 AlarmCallback Plugin lets you run arbitrary scripts on a Graylog2 
 
 See [Creating a Graylog2 Output Plugin](http://d-fens.ch/2015/01/07/howto-creating-a-graylog2-output-plugin/) for further description on how to create plugins.
 
-You can [download the binary](https://drone.io/github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/files) [![Build Status](https://drone.io/github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/status.png)](https://drone.io/github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/latest) at our [drone.io](https://drone.io/github.com/dfch) account, which gets built every time we commit something to the master branch of the repository.
+You can [download the binary](https://drone.io/github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/files) [![Build Status](https://drone.io/github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/status.png)](https://drone.io/github.com/dfch/biz.dfch.j.graylog2.plugin.alarm.execscript/latest) from our [drone.io](https://drone.io/github.com/dfch) account.
 
 Usage
 -----
